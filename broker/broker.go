@@ -22,21 +22,6 @@ func Start(c Config, s ServiceBroker, port string) {
 	http.ListenAndServe(port, nil)
 }
 
-// func usersHandler(w http.ResponseWriter, r *http.Request) {
-
-// 	users, _ := service.GetUsers()
-// 	js, err := json.Marshal(users)
-
-// 	if err != nil {
-// 		http.Error(w, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
-
-// 	w.Header().Set("Content-Type", "application/json")
-// 	w.Write(js)
-
-// }
-
 func idsFromPath(path string) (serviceID string, bindID string) {
 
 	x := strings.Split(path, "/")

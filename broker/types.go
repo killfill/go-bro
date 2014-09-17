@@ -50,37 +50,3 @@ type ServiceBroker interface {
 	Bind(string, string, BindRequest) (BindResponse, error)
 	Unbind(string, string) error
 }
-
-// // ESTOS PARECE QUE YA NO LOS OCUPO!!
-// type Catalog struct {
-// 	Services []Service
-// }
-
-// type Service struct {
-// 	Id, Name, Description string
-// 	Bindable              bool
-// 	Tags, Requires        []string
-// 	Metadata              ServiceMetadata
-// 	Plans                 []Plan
-// 	DashboardClient       ServiceDashboard
-// }
-
-// type ServiceMetadata struct {
-// 	DisplayName, ImageURL, LongDescription, ProviderDisplayName, DocumentationUrl, SupportURL string
-// }
-
-// type Plan struct {
-// 	Id, Name, Description string
-// 	Free                  bool
-// 	Metadata              PlanMetadata
-// }
-
-// type PlanMetadata struct {
-// 	Bullets     []string
-// 	Costs       []map[string]interface{}
-// 	DisplayName string
-// }
-
-// type ServiceDashboard struct {
-// 	Id, Secret, RedirectUri string
-// }

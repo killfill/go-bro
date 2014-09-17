@@ -61,30 +61,6 @@ func New(dsn string) (PostgresService, error) {
 	return s, conn.Ping()
 }
 
-// func (s PostgresService) GetUsers() (users []User, err error) {
-// 	rows, err := s.db.Query("select usename, usesysid, usecreatedb from pg_user")
-// 	defer rows.Close()
-
-// 	if err != nil {
-// 		return users, err
-// 	}
-
-// 	var u User
-
-// 	//Tip: sqlx
-// 	for rows.Next() {
-
-// affect, err := res.RowsAffected()
-// 		err = rows.Scan(&u.Usename, &u.Id, &u.CanCreate)
-// 		if err != nil {
-// 			return
-// 		}
-
-// 		users = append(users, u)
-// 	}
-// 	return
-// }
-
 func (s PostgresService) Create(serviceInstance string, req broker.ServiceRequest) error {
 	fmt.Println("Creating database for: ", serviceInstance, req)
 
