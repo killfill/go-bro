@@ -1,0 +1,10 @@
+{
+	"ImportPath": "sql-broker",
+	"GoVersion": "go1.3",
+	"Deps": [
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Rev": "b021d0ef20de4f7ed239e2cbe3b95648d8e41e95"
+		}
+	]
+}

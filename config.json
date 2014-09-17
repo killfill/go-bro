@@ -1,0 +1,10 @@
+{
+	"username": "broker",
+	"password": "passw0rd",
+	"limits": {
+		"plan1": {
+			"concurrency": 10,
+			"size": 100
+		}
+	}
+}
