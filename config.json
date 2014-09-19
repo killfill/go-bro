@@ -2,9 +2,20 @@
 	"username": "broker",
 	"password": "passw0rd",
 	"limits": {
-		"plan1": {
-			"concurrency": 10,
-			"size": 100
+		"1945cdbf-fe2e-4604-b5f5-17d1109ec12c": {
+			"concurrency": 5
+		},
+		"720de25b-8943-4f95-b333-1038cdeba25d": {
+			"concurrency": 10
+		},
+		"a42c4d7b-c9a5-4ed1-8d4b-cb44966b909d": {
+			"concurrency": 20
+		},
+		"e0c61bb9-fa5e-4f53-aee6-6b794b4a23a5": {
+			"concurrency": 50
+		},
+		"b79ad080-fc01-4569-9ab1-e1b7e09ed9d0": {
+			"concurrency": 100
 		}
 	}
 }

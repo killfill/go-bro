@@ -6,11 +6,11 @@ import (
 
 type Config struct {
 	Username, Password string
-	// Limits             []Limit
+	Limits             map[string]Limit
 }
 
 type Limit struct {
-	Size, Concurrency int
+	Concurrency int
 }
 
 type ServiceRequest struct {
@@ -44,7 +44,7 @@ func (b *BindCredentials) String() string {
 }
 
 type ServiceBroker interface {
-	Create(string, ServiceRequest) error
+	Create(string, ServiceRequest, Limit) error
 	Destroy(string) error
 
 	Bind(string, string, BindRequest) (BindResponse, error)

@@ -61,13 +61,9 @@ func New(dsn string) (PostgresService, error) {
 	return s, conn.Ping()
 }
 
-func (s PostgresService) Create(serviceInstance string, req broker.ServiceRequest) error {
-	fmt.Println("Creating database for: ", serviceInstance, req)
+func (s PostgresService) Create(serviceInstance string, req broker.ServiceRequest, limit broker.Limit) error {
 
-	//TODO: var limit = config.Limits[req.Plan], etc, etc
-	fmt.Println("Requested Plan:", req.Plan)
-
-	sql := fmt.Sprintf("CREATE DATABASE \"%s\" CONNECTION LIMIT %d", serviceInstance, 3)
+	sql := fmt.Sprintf("CREATE DATABASE \"%s\" CONNECTION LIMIT %d", serviceInstance, limit.Concurrency)
 
 	_, err := s.db.Exec(sql)
 	if err != nil {

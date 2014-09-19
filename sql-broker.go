@@ -54,7 +54,6 @@ func main() {
 		fmt.Println("Could not load config:", config)
 		os.Exit(2)
 	}
-	// fmt.Println("CACHATE", config)
 
 	port := getPort()
 	fmt.Println("Starting on port", port)

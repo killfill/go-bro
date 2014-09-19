@@ -20,21 +20,33 @@
 			"plans": [
 				{
 					"id": "1945cdbf-fe2e-4604-b5f5-17d1109ec12c",
-					"name": "small",
-					"description": "Small plan on a shared postgres errr tamaño? conn?",
+					"name": "free-5",
+					"description": "Free Plan. 5 concurrent connections. 50GB size",
 					"free": true
 				},
 				{
 					"id": "720de25b-8943-4f95-b333-1038cdeba25d",
-					"name": "med",
-					"description": "Med plan errr tamao? conn?",
-					"free": false
+					"name": "free-10",
+					"description": "Free Plan. 10 concurrent connections. 50GB size",
+					"free": true
 				},
 				{
 					"id": "a42c4d7b-c9a5-4ed1-8d4b-cb44966b909d",
-					"name": "big",
-					"description": "Big db on a dedicated host (?)",
-					"free": false
+					"name": "free-20",
+					"description": "Free Plan. 20 concurrent connections. 50GB size",
+					"free": true
+				},
+				{
+					"id": "e0c61bb9-fa5e-4f53-aee6-6b794b4a23a5",
+					"name": "free-50",
+					"description": "Free Plan. 50 concurrent connections. 50GB size",
+					"free": true
+				},
+				{
+					"id": "b79ad080-fc01-4569-9ab1-e1b7e09ed9d0",
+					"name": "free-100",
+					"description": "Free Plan. 100 concurrent connections. 50GB size",
+					"free": true
 				}
 			]
 		}

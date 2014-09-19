@@ -2,6 +2,7 @@ package broker
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/http/httputil"
@@ -75,7 +76,12 @@ func serviceHandler(r *http.Request) (int, interface{}) {
 			return http.StatusBadRequest, err
 		}
 
-		if err := service.Create(serviceID, req); err != nil {
+		limit, knownPlan := config.Limits[req.Plan]
+		if !knownPlan {
+			return http.StatusBadRequest, errors.New("Unknown plan")
+		}
+
+		if err := service.Create(serviceID, req, limit); err != nil {
 			return http.StatusConflict, err
 		}
 
