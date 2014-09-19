@@ -1,6 +1,7 @@
 package broker
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -107,6 +108,12 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("\n---------------------------")
 	fmt.Println(string(dump))
 
+	auth := validCredentials(r.Header["Authorization"])
+	if !auth {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	switch {
 
 	case strings.HasPrefix(r.URL.Path, "/v2/catalog"):
@@ -134,4 +141,18 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 	}
 
+}
+
+func validCredentials(authHeader []string) bool {
+
+	if len(authHeader) < 1 {
+		return false
+	}
+
+	parts := strings.Split(authHeader[0], " ")
+	if len(parts) != 2 {
+		return false
+	}
+
+	return parts[1] == base64.StdEncoding.EncodeToString([]byte(config.Username+":"+config.Password))
 }
