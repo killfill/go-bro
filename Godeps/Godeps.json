@@ -3,6 +3,11 @@
 	"GoVersion": "go1.3",
 	"Deps": [
 		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "v1.2-23-g8111ee3",
+			"Rev": "8111ee3ec3cf08037888e77f0e05ec78a8a615b6"
+		},
+		{
 			"ImportPath": "github.com/lib/pq",
 			"Rev": "b021d0ef20de4f7ed239e2cbe3b95648d8e41e95"
 		}

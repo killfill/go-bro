@@ -21,7 +21,7 @@ func main() {
 
 		fmt.Printf("Registering Service Broker %+v \n", serviceConfig)
 
-		serviceBroker := service.New(serviceConfig.Type, serviceConfig.Connection)
+		serviceBroker := service.New(serviceConfig)
 		b.RegisterService(serviceConfig.Id, serviceBroker)
 	}
 

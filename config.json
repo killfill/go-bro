@@ -3,19 +3,33 @@
 	"password": "passw0rd",
 	"services": [
 		{
+			"id": "b6a99eea-6b79-40be-af04-5ac3edf990e2",
+			"type": "mysql",
+			"host": "10.0.1.14",
+			"port": 3306,
+			"username": "root",
+			"password": "123123123"
+		},
+		{
 			"id": "63c948c8-9365-4f5c-ab32-541e50fd249d",
 			"type": "postgresql",
-			"connection": "postgres://postgres@10.0.1.13:5432/?sslmode=disable&connect_timeout=10"
+			"host": "10.0.1.13",
+			"port": 5432,
+			"username": "postgres",
+			"password": "123"
 		},
 		{
 			"id": "dff6e7a0-f801-4f29-af61-43d87ccb5719",
 			"type": "postgresql",
-			"connection": "postgres://postgres@10.0.1.20:5432/?sslmode=disable&connect_timeout=10"
+			"host": "10.0.1.20",
+			"port": 5432,
+			"username": "postgres",
+			"password": "123"
 		}
 	],
 	"plans": {
 		"1945cdbf-fe2e-4604-b5f5-17d1109ec12c": {
-			"comment": "free-5",
+			"comment": "postgresql free-5",
 			"concurrency": 5
 		},
 		"720de25b-8943-4f95-b333-1038cdeba25d": {
@@ -23,25 +37,34 @@
 			"concurrency": 10
 		},
 		"a42c4d7b-c9a5-4ed1-8d4b-cb44966b909d": {
-			"comment": "free-20",
+			"comment": "postgresql free-20",
 			"concurrency": 20
 		},
 		"e0c61bb9-fa5e-4f53-aee6-6b794b4a23a5": {
-			"comment": "free-50",
+			"comment": "postgresql free-50",
 			"concurrency": 50
 		},
 		"b79ad080-fc01-4569-9ab1-e1b7e09ed9d0": {
-			"comment": "free-100",
+			"comment": "postgresql free-100",
 			"concurrency": 100
 		},
 
 		"e9c90365-2b35-49dc-b28c-7d8e2e2e7226": {
-			"comment": "dedicated-200",
+			"comment": "postgresql dedicated-200",
 			"concurrency": 200
 		},
 		"4d0addff-9845-4df3-8363-f68508a8aa0e": {
-			"comment": "dedicated-300",
+			"comment": "postgresql dedicated-300",
 			"concurrency": 300
+		},
+
+		"80dcbfdb-3d73-4b6c-be77-bd18bb438e0d": {
+			"comment": "mysql free-5",
+			"concurrency": 5
+		},
+		"82dee29b-13df-46d1-ab07-ce7098d97dd7": {
+			"comment": "mysql free-10",
+			"concurrency": 10
 		}
 	}
 }

@@ -13,12 +13,12 @@ import (
 
 type PostgresService struct {
 	db   sql.DB
-	host string
-	port int
+	conf config.ServiceConfig
 }
 
-func New(dsn string) *PostgresService {
+func New(conf config.ServiceConfig) *PostgresService {
 
+	dsn := fmt.Sprintf("postgres://%s:%s@%s:%d/?sslmode=disable&connect_timeout=10", conf.Username, conf.Password, conf.Host, conf.Port)
 	conn, err := sql.Open("postgres", dsn)
 	defer conn.Close()
 
@@ -26,12 +26,12 @@ func New(dsn string) *PostgresService {
 		panic(err.Error())
 	}
 
-	s := PostgresService{db: *conn}
+	// connectError := conn.Ping()
+	// if connectError != nil {
+	// 	panic("Could not connect: " + connectError.Error())
+	// }
 
-	//Save the endpoint of the service, for later use in Bind()
-	s.host, s.port = utils.GetHostAndPortFromURL(dsn)
-
-	return &s
+	return &PostgresService{db: *conn, conf: conf}
 }
 
 func (s *PostgresService) Create(serviceInstance string, req broker.ServiceRequest, planConfig config.PlanConfig) (err error) {
@@ -49,9 +49,9 @@ func (s *PostgresService) Destroy(serviceInstance string) (err error) {
 
 func (s *PostgresService) Bind(serviceInstance string, bindID string, req broker.BindRequest) (resp broker.BindResponse, err error) {
 
-	cred := broker.BindCredentials{Host: s.host, Port: s.port}
+	cred := broker.BindCredentials{Host: s.conf.Host, Port: s.conf.Port}
 	cred.Username = bindID
-	cred.Password = utils.Rand_str(15)
+	cred.Password = utils.Rand_str(16)
 	cred.Database = serviceInstance
 	cred.Uri = fmt.Sprintf("postgres://%s:%s@%s:%d/%s", cred.Username, cred.Password, cred.Host, cred.Port, cred.Database)
 
@@ -63,7 +63,7 @@ func (s *PostgresService) Bind(serviceInstance string, bindID string, req broker
 		return
 	}
 
-	sql = fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE \"%s\" to \"%s\"", cred.Database, cred.Username)
+	sql = fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE \"%s\" TO \"%s\"", cred.Database, cred.Username)
 	_, err = s.db.Exec(sql)
 	return
 }

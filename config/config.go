@@ -13,7 +13,8 @@ type Config struct {
 }
 
 type ServiceConfig struct {
-	Id, Type, Connection string
+	Id, Type, Host, Username, Password string
+	Port                               int
 }
 
 type PlanConfig struct {

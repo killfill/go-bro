@@ -2,18 +2,23 @@ package service
 
 import (
 	"go-bro/broker"
+	"go-bro/config"
+	"go-bro/service/mysql"
 	"go-bro/service/postgresql"
 )
 
-func New(serviceType, connection string) broker.ServiceBroker {
+func New(conf config.ServiceConfig) broker.ServiceBroker {
 
 	//TODO: reflection?
-	switch serviceType {
+	switch conf.Type {
 
 	case "postgresql":
-		return postgresql.New(connection)
+		return postgresql.New(conf)
+
+	case "mysql":
+		return mysql.New(conf)
 
 	default:
-		panic("Unknown Type: " + serviceType)
+		panic("Unknown Type: " + conf.Type)
 	}
 }

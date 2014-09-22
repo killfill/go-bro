@@ -153,10 +153,11 @@ func (b *Broker) httpHandler(w http.ResponseWriter, r *http.Request) {
 		err, found := body.(error)
 		if found {
 			body = map[string]string{"description": err.Error()}
+			fmt.Println("--> Response with error:", status, err.Error())
 		}
 
 		if err := json.NewEncoder(w).Encode(body); err != nil {
-			fmt.Println("Could jsonify the body:", err)
+			fmt.Println("Could not jsonify the body:", err)
 		}
 
 	default:
