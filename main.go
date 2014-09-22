@@ -1,13 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"os"
+
 	"go-bro/broker"
 	"go-bro/config"
-
 	"go-bro/service"
-
-	"fmt"
 )
 
 func main() {
@@ -23,12 +22,10 @@ func main() {
 		fmt.Printf("Registering Service Broker %+v \n", serviceConfig)
 
 		serviceBroker := service.New(serviceConfig.Type, serviceConfig.Connection)
-
 		b.RegisterService(serviceConfig.Id, serviceBroker)
 	}
 
 	b.Listen(addr)
-
 }
 
 func getAddr() string {

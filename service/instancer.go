@@ -2,7 +2,6 @@ package service
 
 import (
 	"go-bro/broker"
-
 	"go-bro/service/postgresql"
 )
 

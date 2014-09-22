@@ -34,17 +34,6 @@ func (b *Broker) Listen(addr string) {
 	http.ListenAndServe(addr, nil)
 }
 
-func idsFromPath(path string) (serviceID string, bindID string) {
-
-	x := strings.Split(path, "/")
-	serviceID = x[1]
-	if len(x) == 4 {
-		bindID = x[3]
-	}
-
-	return
-}
-
 var empty struct{} = struct{}{}
 
 func (b *Broker) serviceHandler(r *http.Request) (int, interface{}) {
@@ -188,4 +177,15 @@ func (b *Broker) validCredentials(authHeader []string) bool {
 	}
 
 	return parts[1] == base64.StdEncoding.EncodeToString([]byte(b.username+":"+b.password))
+}
+
+func idsFromPath(path string) (serviceID string, bindID string) {
+
+	x := strings.Split(path, "/")
+	serviceID = x[1]
+	if len(x) == 4 {
+		bindID = x[3]
+	}
+
+	return
 }

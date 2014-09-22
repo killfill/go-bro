@@ -1,14 +1,14 @@
 package postgresql
 
 import (
+	"fmt"
+
 	"database/sql"
 	_ "github.com/lib/pq"
 
 	"go-bro/broker"
 	"go-bro/config"
 	"go-bro/service/common"
-
-	"fmt"
 )
 
 type PostgresService struct {
