@@ -1,9 +1,9 @@
 package service
 
 import (
-	"sql-broker/broker"
+	"go-bro/broker"
 
-	"sql-broker/service/postgresql"
+	"go-bro/service/postgresql"
 )
 
 func New(serviceType, connection string) broker.ServiceBroker {

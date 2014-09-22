@@ -9,7 +9,7 @@ import (
 	"net/http/httputil"
 	"strings"
 
-	"sql-broker/config"
+	"go-bro/config"
 )
 
 type Broker struct {

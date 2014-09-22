@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	_ "github.com/lib/pq"
 
-	"sql-broker/broker"
-	"sql-broker/config"
-	"sql-broker/service/common"
+	"go-bro/broker"
+	"go-bro/config"
+	"go-bro/service/common"
 
 	"fmt"
 )

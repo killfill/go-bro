@@ -1,1 +1,1 @@
-web: sql-broker
+web: go-bro

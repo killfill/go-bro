@@ -2,10 +2,10 @@ package main
 
 import (
 	"os"
-	"sql-broker/broker"
-	"sql-broker/config"
+	"go-bro/broker"
+	"go-bro/config"
 
-	"sql-broker/service"
+	"go-bro/service"
 
 	"fmt"
 )

@@ -1,6 +1,6 @@
 package broker
 
-import "sql-broker/config"
+import "go-bro/config"
 
 type ServiceRequest struct {
 	ServiceID      string `json:"service_id"`
