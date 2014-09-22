@@ -5,7 +5,7 @@
 		{
 			"id": "b6a99eea-6b79-40be-af04-5ac3edf990e2",
 			"type": "mysql",
-			"host": "10.0.1.14",
+			"host": "mysql-shared.domain.com",
 			"port": 3306,
 			"username": "root",
 			"password": "123123123"
@@ -13,7 +13,7 @@
 		{
 			"id": "63c948c8-9365-4f5c-ab32-541e50fd249d",
 			"type": "postgresql",
-			"host": "10.0.1.13",
+			"host": "postgres-shared.domain.com",
 			"port": 5432,
 			"username": "postgres",
 			"password": "123"
@@ -21,7 +21,7 @@
 		{
 			"id": "dff6e7a0-f801-4f29-af61-43d87ccb5719",
 			"type": "postgresql",
-			"host": "10.0.1.20",
+			"host": "postgres-dedicated.domain.com",
 			"port": 5432,
 			"username": "postgres",
 			"password": "123"
