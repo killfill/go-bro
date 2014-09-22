@@ -32,6 +32,6 @@ type ServiceBroker interface {
 	Create(string, ServiceRequest, config.PlanConfig) error
 	Destroy(string) error
 
-	Bind(string, string, BindRequest) (BindResponse, error)
+	Bind(string, string, BindRequest, config.PlanConfig) (BindResponse, error)
 	Unbind(string, string) error
 }

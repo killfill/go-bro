@@ -58,7 +58,12 @@ func (b *Broker) serviceHandler(r *http.Request) (int, interface{}) {
 			return http.StatusBadRequest, errors.New("Unknown service: " + req.ServiceID)
 		}
 
-		resp, err := service.Bind(serviceInstance, bindingID, req)
+		planConfig, gotPlan := b.plans[req.PlanID]
+		if !gotPlan {
+			return http.StatusBadRequest, errors.New("Unknown plan: " + req.PlanID)
+		}
+
+		resp, err := service.Bind(serviceInstance, bindingID, req, planConfig)
 		if err != nil {
 			return http.StatusConflict, err
 		}
@@ -90,7 +95,7 @@ func (b *Broker) serviceHandler(r *http.Request) (int, interface{}) {
 
 		planConfig, gotPlan := b.plans[req.PlanID]
 		if !gotPlan {
-			return http.StatusBadRequest, errors.New("Unknown plan")
+			return http.StatusBadRequest, errors.New("Unknown plan: " + req.PlanID)
 		}
 
 		service, gotService := b.services[req.ServiceID]

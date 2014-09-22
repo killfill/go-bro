@@ -49,7 +49,7 @@ func (s MysqlService) Destroy(serviceInstance string) error {
 	return err
 }
 
-func (s MysqlService) Bind(serviceInstance string, bindID string, req broker.BindRequest) (resp broker.BindResponse, err error) {
+func (s MysqlService) Bind(serviceInstance string, bindID string, req broker.BindRequest, planConfig config.PlanConfig) (resp broker.BindResponse, err error) {
 
 	cred := broker.BindCredentials{Host: s.conf.Host, Port: s.conf.Port}
 
@@ -69,7 +69,7 @@ func (s MysqlService) Bind(serviceInstance string, bindID string, req broker.Bin
 		return
 	}
 
-	sql = fmt.Sprintf("GRANT ALL ON `%s`.* TO '%s'@'%%' WITH MAX_USER_CONNECTIONS %d", cred.Database, cred.Username, 2)
+	sql = fmt.Sprintf("GRANT ALL ON `%s`.* TO '%s'@'%%' WITH MAX_USER_CONNECTIONS %d", cred.Database, cred.Username, planConfig.Concurrency)
 	_, err = s.db.Exec(sql)
 	if err != nil {
 		return

@@ -47,7 +47,7 @@ func (s *PostgresService) Destroy(serviceInstance string) (err error) {
 	return
 }
 
-func (s *PostgresService) Bind(serviceInstance string, bindID string, req broker.BindRequest) (resp broker.BindResponse, err error) {
+func (s *PostgresService) Bind(serviceInstance string, bindID string, req broker.BindRequest, planConfig config.PlanConfig) (resp broker.BindResponse, err error) {
 
 	cred := broker.BindCredentials{Host: s.conf.Host, Port: s.conf.Port}
 	cred.Username = bindID
