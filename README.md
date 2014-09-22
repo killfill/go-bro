@@ -23,7 +23,7 @@ Just need to be accesible by the CF Controller and DEA...
 
 The idea is to support multiple services like PostgreSQL or MySQL.
 
-Currently working on: PostgreSQL
+Currently works on: PostgreSQL
 
 It does support multiple instances of services too, so for example you can have one shared database cluster, and another dedicated one possible faster.
 
