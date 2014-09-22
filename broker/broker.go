@@ -8,20 +8,30 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"strings"
+
+	"sql-broker/config"
 )
 
-var (
-	service ServiceBroker
-	config  Config
-)
+type Broker struct {
+	username string
+	password string
+	plans    map[string]config.PlanConfig
+	services map[string]ServiceBroker
+}
 
-func Start(c Config, s ServiceBroker, port string) {
+func New(user, pass string, plans map[string]config.PlanConfig) Broker {
+	return Broker{username: user, password: pass, plans: plans, services: map[string]ServiceBroker{}}
+}
 
-	service = s
-	config = c
+func (b *Broker) RegisterService(id string, service ServiceBroker) {
+	b.services[id] = service
+}
 
-	http.HandleFunc("/", httpHandler)
-	http.ListenAndServe(port, nil)
+func (b *Broker) Listen(addr string) {
+	fmt.Println("Starting on", addr)
+
+	http.HandleFunc("/", b.httpHandler)
+	http.ListenAndServe(addr, nil)
 }
 
 func idsFromPath(path string) (serviceID string, bindID string) {
@@ -37,9 +47,9 @@ func idsFromPath(path string) (serviceID string, bindID string) {
 
 var empty struct{} = struct{}{}
 
-func serviceHandler(r *http.Request) (int, interface{}) {
+func (b *Broker) serviceHandler(r *http.Request) (int, interface{}) {
 
-	serviceID, bindingID := idsFromPath(r.URL.Path[len("/v2/"):])
+	serviceInstance, bindingID := idsFromPath(r.URL.Path[len("/v2/"):])
 
 	decoder := json.NewDecoder(r.Body)
 
@@ -54,7 +64,12 @@ func serviceHandler(r *http.Request) (int, interface{}) {
 			return http.StatusBadRequest, err
 		}
 
-		resp, err := service.Bind(serviceID, bindingID, req)
+		service, gotService := b.services[req.ServiceID]
+		if !gotService {
+			return http.StatusBadRequest, errors.New("Unknown service: " + req.ServiceID)
+		}
+
+		resp, err := service.Bind(serviceInstance, bindingID, req)
 		if err != nil {
 			return http.StatusConflict, err
 		}
@@ -62,7 +77,14 @@ func serviceHandler(r *http.Request) (int, interface{}) {
 		return http.StatusCreated, resp
 
 	case bindingID != "" && r.Method == "DELETE":
-		if err := service.Unbind(serviceID, bindingID); err != nil {
+
+		serviceID := r.URL.Query().Get("service_id")
+		service, gotService := b.services[serviceID]
+		if !gotService {
+			return http.StatusBadRequest, errors.New("Unknown service: " + serviceID)
+		}
+
+		if err := service.Unbind(serviceInstance, bindingID); err != nil {
 			return http.StatusGone, err
 		}
 
@@ -77,12 +99,17 @@ func serviceHandler(r *http.Request) (int, interface{}) {
 			return http.StatusBadRequest, err
 		}
 
-		limit, knownPlan := config.Limits[req.Plan]
-		if !knownPlan {
+		planConfig, gotPlan := b.plans[req.PlanID]
+		if !gotPlan {
 			return http.StatusBadRequest, errors.New("Unknown plan")
 		}
 
-		if err := service.Create(serviceID, req, limit); err != nil {
+		service, gotService := b.services[req.ServiceID]
+		if !gotService {
+			return http.StatusBadRequest, errors.New("Unknown service: " + req.ServiceID)
+		}
+
+		if err := service.Create(serviceInstance, req, planConfig); err != nil {
 			return http.StatusConflict, err
 		}
 
@@ -91,7 +118,13 @@ func serviceHandler(r *http.Request) (int, interface{}) {
 	//DELETE SERVICE
 	case r.Method == "DELETE":
 
-		if err := service.Destroy(serviceID); err != nil {
+		serviceID := r.URL.Query().Get("service_id")
+		service, gotService := b.services[serviceID]
+		if !gotService {
+			return http.StatusBadRequest, errors.New("Unknown service: " + serviceID)
+		}
+
+		if err := service.Destroy(serviceInstance); err != nil {
 			return http.StatusInternalServerError, err
 		}
 
@@ -102,13 +135,13 @@ func serviceHandler(r *http.Request) (int, interface{}) {
 	}
 }
 
-func httpHandler(w http.ResponseWriter, r *http.Request) {
+func (b *Broker) httpHandler(w http.ResponseWriter, r *http.Request) {
 
 	dump, _ := httputil.DumpRequest(r, true)
 	fmt.Println("\n---------------------------")
 	fmt.Println(string(dump))
 
-	auth := validCredentials(r.Header["Authorization"])
+	auth := b.validCredentials(r.Header["Authorization"])
 	if !auth {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
@@ -122,7 +155,7 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 
 	case strings.HasPrefix(r.URL.Path, "/v2/service_instances/"):
 
-		status, body := serviceHandler(r)
+		status, body := b.serviceHandler(r)
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(status)
@@ -143,7 +176,7 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func validCredentials(authHeader []string) bool {
+func (b *Broker) validCredentials(authHeader []string) bool {
 
 	if len(authHeader) < 1 {
 		return false
@@ -154,5 +187,5 @@ func validCredentials(authHeader []string) bool {
 		return false
 	}
 
-	return parts[1] == base64.StdEncoding.EncodeToString([]byte(config.Username+":"+config.Password))
+	return parts[1] == base64.StdEncoding.EncodeToString([]byte(b.username+":"+b.password))
 }

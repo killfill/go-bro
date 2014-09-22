@@ -1,29 +1,18 @@
 package broker
 
-import (
-	"fmt"
-)
-
-type Config struct {
-	Username, Password string
-	Limits             map[string]Limit
-}
-
-type Limit struct {
-	Concurrency int
-}
+import "sql-broker/config"
 
 type ServiceRequest struct {
-	Service      string `json:"service_id"`
-	Plan         string `json:"plan_id"`
-	Organization string `json:"organization_guid"`
-	Space        string `json:"space_guid"`
+	ServiceID      string `json:"service_id"`
+	PlanID         string `json:"plan_id"`
+	OrganizationID string `json:"organization_guid"`
+	SpaceID        string `json:"space_guid"`
 }
 
 type BindRequest struct {
-	Service string `json:"service_id"`
-	Plan    string `json:"plan_id"`
-	App     string `json:"app_guid"`
+	ServiceID string `json:"service_id"`
+	PlanID    string `json:"plan_id"`
+	AppID     string `json:"app_guid"`
 }
 
 type BindResponse struct {
@@ -39,12 +28,8 @@ type BindCredentials struct {
 	Database string `json:"database"`
 }
 
-func (b *BindCredentials) String() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s", b.Username, b.Password, b.Host, b.Port, b.Database)
-}
-
 type ServiceBroker interface {
-	Create(string, ServiceRequest, Limit) error
+	Create(string, ServiceRequest, config.PlanConfig) error
 	Destroy(string) error
 
 	Bind(string, string, BindRequest) (BindResponse, error)
