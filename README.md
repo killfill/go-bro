@@ -12,18 +12,12 @@ GoBro is a [Cloud Foundry](http://cloudfoundry.org/) [Service Broker](http://doc
 It doesnt save any state, so does not depends on any database or store.
 Should be easy to extend to add other services. Can be run as you like. Running it as a common CF app does work too.
 
-Just need to setup 2 files:
-* **config.json** file
-* **catalog.json** file
-
-It doesnt matter if the services are managed manually or by [Bosh](http://bosh.cloudfoundry.org/), clustered or not. 
+It doesnt matter if the services are managed manually or by [Bosh](http://bosh.cloudfoundry.org/), clustered or not.
 Just need to be accesible by the CF Controller and DEA...
 
 ### Support multiple services
 
-The idea is to support multiple services like PostgreSQL or MySQL.
-
-Currently works on: PostgreSQL
+The idea is to support multiple services, currently works for PostgreSQL and MySQL
 
 It does support multiple instances of services too, so for example you can have one shared database cluster, and another dedicated one possible faster.
 
@@ -39,8 +33,7 @@ Just make sure the uuid's matches on both files.
 
 ## TODO
 
-* MySQL support
-
+* Implement other services
 
 ## Usage example
 
@@ -62,6 +55,8 @@ broker: gobro
    postgres             free-100        none
    dedicated-postgres   dedicated-100   none
    dedicated-postgres   dedicated-200   none
+   mysql                free-5          none
+   mysql                free-10         none
 ```
 
 ```BASH
