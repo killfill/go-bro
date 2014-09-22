@@ -29,7 +29,7 @@ func New(dsn string) *PostgresService {
 	s := PostgresService{db: *conn}
 
 	//Save the endpoint of the service, for later use in Bind()
-	s.host, s.port = utils.GetAddressFromURL(dsn)
+	s.host, s.port = utils.GetHostAndPortFromURL(dsn)
 
 	return &s
 }

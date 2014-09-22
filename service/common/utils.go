@@ -17,7 +17,7 @@ func Rand_str(str_size int) string {
 	return string(bytes)
 }
 
-func GetAddressFromURL(dsn string) (host string, port int) {
+func GetHostAndPortFromURL(dsn string) (host string, port int) {
 	at := strings.Index(dsn, "@")
 	addr := strings.Split(dsn[at+1:], "/")[0]
 	s := strings.Split(addr, ":")
